@@ -1,0 +1,106 @@
+\documentclass{beamer}
+  % Xe(La)TeX
+  \usepackage{fontspec}
+  \usepackage{xunicode}
+  \usepackage{soul}
+  \usepackage{eurosym}
+  \usepackage{textcomp}
+
+  % Style général
+  \usetheme{Frankfurt}
+  \usefonttheme{professionalfonts}
+  \setbeamertemplate{navigation symbols}{}
+
+  % Charte fédérale.
+  \definecolor{blue}{HTML}{729FCF}
+  \setbeamercolor{structure}{fg=blue}
+  \setbeamercolor{block body}{bg=blue,fg=white}
+  \setbeamercolor{block title}{bg=blue,fg=white}
+  \setbeamercolor{block body alerted}{bg=blue,fg=white}
+  \setbeamercolor{block title alerted}{bg=blue,fg=white}
+  \setbeamercolor{block body example}{bg=blue,fg=white}
+  \setbeamercolor{block title example}{bg=blue,fg=white}
+
+  % Paquetages utiles.
+  \usepackage[absolute,overlay]{textpos}
+  \usepackage{etoolbox}
+  \usepackage{tikz}
+
+  % Compteur spécifique pour partager les numéros de page
+  \newcounter{multipleslide}
+  % Commande pour concerver le meme compteur de page
+  \makeatletter%
+  \newcommand{\multipleframe}{%
+  \setcounter{multipleslide}{\value{framenumber}}
+  \stepcounter{multipleslide}
+  \patchcmd{\beamer@@tmpl@footline}% <cmd>
+    {\insertframenumber}% <search>
+    {\themultipleslide}% <replace>
+    {}% <success>
+    {}% <failure>
+  }
+  \newcommand{\restoreframe}{%
+  \patchcmd{\beamer@@tmpl@footline}% <cmd>
+    {\themultipleslide}% <search>
+    {\insertframenumber}% <replace>
+    {}% <success>
+    {}% <failure>
+  \setcounter{framenumber}{\value{multipleslide}}%
+  }
+  \makeatother%
+
+  % Pied de page.
+  \setbeamertemplate{footline}{
+    \leavevmode%
+    \hbox{\hspace*{-0.07cm}
+    \begin{beamercolorbox}[wd=.28\paperwidth,ht=2.25ex,dp=1ex,center]{section in head/foot}%
+      \usebeamerfont{author in head/foot} Tikka
+    \end{beamercolorbox}%
+    \begin{beamercolorbox}[wd=.40\paperwidth,ht=2.25ex,dp=1ex,center]{section in head/foot}%
+      \usebeamerfont{section in head/foot} \inserttitle
+    \end{beamercolorbox}%
+    \begin{beamercolorbox}[wd=.25\paperwidth,ht=2.25ex,dp=1ex,center]{section in head/foot}%
+      \usebeamerfont{section in head/foot} \insertdate
+    \end{beamercolorbox}%
+    \begin{beamercolorbox}[wd=.07\paperwidth,ht=2.25ex,dp=1ex,center]{section in head/foot}%
+      \usebeamerfont{section in head/foot} \insertframenumber{} / \inserttotalframenumber
+    \end{beamercolorbox}}%
+    \vskip-1pt%
+  }
+
+  % Transitions.
+  \AtBeginSection[] {
+    \begin{frame}{~}
+      \tableofcontents[currentsection]
+    \end{frame}
+  }
+
+  % Méta-informations du document.
+  \title{Internet : des machines, des chats, et des humains}
+  \author{Romain "Tikka" Deville}
+  \date{Expérience Numérique - Lyon}
+\begin{document}
+  \setcounter{framenumber}{0}
+  \begin{frame}{~}
+    \centering
+    \vspace{0.5em}
+    \begin{alertblock}{}
+      \vspace{0.5em}
+      \centering
+      \Large \inserttitle
+      \\\footnotesize ~
+    \end{alertblock}
+    \vspace{1em}
+    \insertauthor
+    \\\vspace{2em}
+    \insertdate
+    \\\vspace{2em}
+    \includegraphics[width=0.42\textwidth]{theme/illyse.png}
+    \hfill
+    \includegraphics[width=0.2\textwidth]{theme/hadoly.png}
+  \end{frame}
+  \input{concepts/concepts}
+  \input{usages/usages}
+  \input{un_autre_internet/un_autre_internet}
+  \setcounter{framenumber}{42}
+\end{document}
